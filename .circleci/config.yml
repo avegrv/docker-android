@@ -8,8 +8,8 @@ aliases:
   - &build-docker
     name: Build Docker Image
     command: |
-      docker build -t react-native-community/react-native .
-      docker run --rm --name rn-env react-native-community/react-native bin/sh -c "npx envinfo"
+      docker build -t avegorov/docker-react-native-android .
+      docker run --rm --name rn-env avegorov/docker-react-native-android bin/sh -c "npx envinfo"
 
 jobs:
   test:
@@ -20,14 +20,14 @@ jobs:
       - run:
           name: Test Avd
           command: |
-            docker run --rm --name rn-build -v $PWD:/pwd -w /pwd react-native-community/react-native bash -c \
+            docker run --rm --name rn-build -v $PWD:/pwd -w /pwd avegorov/docker-react-native-android bash -c \
               "chmod +x ./test-avd.sh && ./test-avd.sh"
       - run:
           name: Test React Native build
           command: |
             git clone https://github.com/facebook/react-native --depth=1
             cd react-native
-            docker run --rm --name rn-build -v $PWD:/pwd -w /pwd react-native-community/react-native /bin/sh -c \
+            docker run --rm --name rn-build -v $PWD:/pwd -w /pwd avegorov/docker-react-native-android /bin/sh -c \
               "yarn install && ./gradlew RNTester:android:app:assembleRelease && ./scripts/circleci/buck_fetch.sh"
   deploy:
     <<: *defaults
