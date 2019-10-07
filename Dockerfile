@@ -32,8 +32,8 @@ RUN apt install -qq -y --no-install-recommends \
         openjdk-8-jre \
         gnupg2 \
         python \
-        ruby2.4 \
-        ruby2.4-dev \
+        ruby2.6 \
+        ruby2.6-dev \
         openssh-client \
         unzip \
     && rm -rf /var/lib/apt/lists/*;
