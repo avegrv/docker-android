@@ -37,7 +37,6 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*;
 
 # install fastlane
-
 RUN gem install fastlane
 
 # install nodejs and yarn packages from nodesource and yarn apt sources
