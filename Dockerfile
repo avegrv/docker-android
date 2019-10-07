@@ -30,14 +30,19 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         openjdk-8-jre \
         gnupg2 \
         python \
-        ruby \
-        ruby-dev \
         openssh-client \
         unzip \
     && rm -rf /var/lib/apt/lists/*;
 
 # install fastlane
-RUN gem install fastlane
+ARG BUILDDEPS="libpthread-stubs0-dev g++ build-essential"
+
+RUN apt -qq update --yes && \
+    apt -qq install --yes --no-install-recommends --no-install-suggests \
+      $BUILDDEPS make ruby-dev imagemagick gcc && \
+    gem install fastlane bundler -N && \
+    apt remove -qq --yes --purge $BUILDDEPS
+
 
 # install nodejs and yarn packages from nodesource and yarn apt sources
 RUN echo "deb https://deb.nodesource.com/node_${NODE_VERSION} stretch main" > /etc/apt/sources.list.d/nodesource.list \
