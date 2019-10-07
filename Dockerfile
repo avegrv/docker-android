@@ -20,10 +20,8 @@ ENV ANDROID_NDK=/opt/ndk/android-ndk-r$NDK_VERSION
 
 ENV PATH=${ANDROID_NDK}:${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:/opt/buck/bin/:${PATH}
 
-RUN apt update -qq && apt install -qq -y --no-install-recommends software-properties-common
-RUN apt-add-repository ppa:brightbox/ruby-ng
 # Install system dependencies
-RUN apt install -qq -y --no-install-recommends \
+RUN apt update -qq && apt install -qq -y --no-install-recommends \
         apt-transport-https \
         curl \
         build-essential \
@@ -32,8 +30,8 @@ RUN apt install -qq -y --no-install-recommends \
         openjdk-8-jre \
         gnupg2 \
         python \
-        ruby2.6 \
-        ruby2.6-dev \
+        ruby \
+        ruby-dev \
         openssh-client \
         unzip \
     && rm -rf /var/lib/apt/lists/*;
