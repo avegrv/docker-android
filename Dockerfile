@@ -20,11 +20,10 @@ ENV ANDROID_NDK=/opt/ndk/android-ndk-r$NDK_VERSION
 
 ENV PATH=${ANDROID_NDK}:${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:/opt/buck/bin/:${PATH}
 
-RUN apt-get install software-properties-common
+RUN apt update -qq && apt install -qq -y --no-install-recommends software-properties-common
 RUN apt-add-repository ppa:brightbox/ruby-ng
-RUN apt-get update
 # Install system dependencies
-RUN apt update -qq && apt install -qq -y --no-install-recommends \
+RUN apt install -qq -y --no-install-recommends \
         apt-transport-https \
         curl \
         build-essential \
