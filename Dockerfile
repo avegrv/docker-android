@@ -1,6 +1,7 @@
 FROM openjdk:8
 
-LABEL Description="This image provides a base Android development environment for React Native, and may be used to run tests."
+LABEL Description="This image provides a base Android development environment for React Native may be used to run tests and distribute apps via fastlane."
+
 
 # set default build arguments
 ARG SDK_VERSION=sdk-tools-linux-4333796.zip
@@ -19,8 +20,8 @@ ENV ANDROID_NDK=/opt/ndk/android-ndk-r$NDK_VERSION
 
 ENV PATH=${ANDROID_NDK}:${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:/opt/buck/bin/:${PATH}
 
-# Install system dependencies
-RUN apt update -qq && apt install -qq -y --no-install-recommends \
+# Install system dependencies and fastlane
+RUN apt update && apt-get install -qq -y --no-install-recommends \
         apt-transport-https \
         curl \
         build-essential \
@@ -29,8 +30,16 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         openjdk-8-jre \
         gnupg2 \
         python \
+        libcurl3-dev \
         openssh-client \
         unzip \
+        libpthread-stubs0-dev \
+        g++ \
+        make \
+        ruby-dev \
+        imagemagick \
+        gcc \
+    && gem install fastlane bundler -N \
     && rm -rf /var/lib/apt/lists/*;
 
 # install nodejs and yarn packages from nodesource and yarn apt sources
@@ -67,3 +76,4 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "add-ons;addon-google_apis-google-23" \
         "system-images;android-19;google_apis;armeabi-v7a" \
         "extras;android;m2repository"
+
