@@ -33,7 +33,7 @@ RUN /bin/bash -l -c ". /etc/profile.d/rvm.sh && rvm install 2.4.4"
 # `docker run` command 
 ENTRYPOINT ["/bin/bash", "-l", "-c"]
 
-# Install system dependencies
+# Install system dependencies and fastlane
 RUN apt update && apt-get install -qq -y --no-install-recommends \
         apt-transport-https \
         curl \
@@ -49,12 +49,11 @@ RUN apt update && apt-get install -qq -y --no-install-recommends \
         libpthread-stubs0-dev \
         g++ \
         make \
+        ruby-dev \
         imagemagick \
         gcc \
-        && rm -rf /var/lib/apt/lists/*
-
-# install fastlane
-RUN gem install fastlane bundler -N
+    && gem install fastlane bundler -N \
+    && rm -rf /var/lib/apt/lists/*;
 
 # install nodejs and yarn packages from nodesource and yarn apt sources
 RUN echo "deb https://deb.nodesource.com/node_${NODE_VERSION} stretch main" > /etc/apt/sources.list.d/nodesource.list \
