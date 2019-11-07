@@ -21,11 +21,17 @@ ENV ANDROID_NDK=/opt/ndk/android-ndk-r$NDK_VERSION
 
 ENV PATH=${ANDROID_NDK}:${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:/opt/buck/bin/:${PATH}
 
-RUN apt-get update && \
-    apt-get install -y software-properties-common \
-    && rm -rf /var/lib/apt/lists/*
-    
-RUN apt-add-repository -y ppa:rael-gc/rvm
+# install rvm
+RUN apt-get update -q && \
+    apt-get install -qy curl ca-certificates gnupg2 build-essential --no-install-recommends && apt-get clean
+
+RUN gpg2 --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
+RUN curl -sSL https://get.rvm.io | bash -s
+RUN /bin/bash -l -c ". /etc/profile.d/rvm.sh && rvm install 2.4.4"
+# The entry point here is an initialization process, 
+# it will be used as arguments for e.g.
+# `docker run` command 
+ENTRYPOINT ["/bin/bash", "-l", "-c"]
 
 # Install system dependencies
 RUN apt update && apt-get install -qq -y --no-install-recommends \
@@ -45,11 +51,7 @@ RUN apt update && apt-get install -qq -y --no-install-recommends \
         make \
         imagemagick \
         gcc \
-        rvm \
         && rm -rf /var/lib/apt/lists/*
-
-# install ruby
-RUN rvm install ruby-2.4.4
 
 # install fastlane
 RUN gem install fastlane bundler -N
