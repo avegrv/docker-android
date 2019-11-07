@@ -11,6 +11,7 @@ ARG BUCK_VERSION=2019.09.03.01
 ARG NDK_VERSION=20
 ARG NODE_VERSION=10.x
 ARG WATCHMAN_VERSION=4.9.0
+ARG RUBY_VERSION=2.4
 
 # set default environment variables
 ENV ADB_INSTALL_TIMEOUT=10
@@ -36,7 +37,7 @@ RUN apt update && apt-get install -qq -y --no-install-recommends \
         libpthread-stubs0-dev \
         g++ \
         make \
-        ruby-dev \
+        ruby2.4-dev \
         imagemagick \
         gcc \
     && gem install fastlane bundler -N \
