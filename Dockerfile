@@ -21,6 +21,10 @@ ENV ANDROID_NDK=/opt/ndk/android-ndk-r$NDK_VERSION
 
 ENV PATH=${ANDROID_NDK}:${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:/opt/buck/bin/:${PATH}
 
+RUN apt-get update && \
+    apt-get install -y software-properties-common \
+    && rm -rf /var/lib/apt/lists/*
+    
 RUN apt-add-repository -y ppa:rael-gc/rvm
 
 # Install system dependencies
@@ -41,13 +45,14 @@ RUN apt update && apt-get install -qq -y --no-install-recommends \
         make \
         imagemagick \
         gcc \
-        rvm;
+        rvm \
+        && rm -rf /var/lib/apt/lists/*
 
+# install ruby
 RUN rvm install ruby-2.4.4
 
 # install fastlane
 RUN gem install fastlane bundler -N
-RUN rm -rf /var/lib/apt/lists/*;
 
 # install nodejs and yarn packages from nodesource and yarn apt sources
 RUN echo "deb https://deb.nodesource.com/node_${NODE_VERSION} stretch main" > /etc/apt/sources.list.d/nodesource.list \
