@@ -39,7 +39,6 @@ RUN apt update && apt-get install -qq -y --no-install-recommends \
         ruby-dev \
         imagemagick \
         gcc \
-        firebase-tools \
     && gem install fastlane bundler -N \
     && rm -rf /var/lib/apt/lists/*;
 
@@ -51,6 +50,9 @@ RUN echo "deb https://deb.nodesource.com/node_${NODE_VERSION} stretch main" > /e
     && apt-get update -qq \
     && apt-get install -qq -y --no-install-recommends nodejs yarn \
     && rm -rf /var/lib/apt/lists/*
+    
+# install firebase cli
+RUN npm install -g firebase-tools
 
 # download and unpack NDK
 RUN curl -sS https://dl.google.com/android/repository/android-ndk-r$NDK_VERSION-linux-x86_64.zip -o /tmp/ndk.zip \
