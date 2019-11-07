@@ -49,7 +49,6 @@ RUN apt update && apt-get install -qq -y --no-install-recommends \
         libpthread-stubs0-dev \
         g++ \
         make \
-        ruby-dev \
         imagemagick \
         gcc \
     && gem install fastlane bundler -N \
