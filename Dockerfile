@@ -39,6 +39,7 @@ RUN apt update && apt-get install -qq -y --no-install-recommends \
         ruby-dev \
         imagemagick \
         gcc \
+        firebase \
     && gem install fastlane bundler -N \
     && rm -rf /var/lib/apt/lists/*;
 
