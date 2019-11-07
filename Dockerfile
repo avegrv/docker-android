@@ -21,6 +21,8 @@ ENV ANDROID_NDK=/opt/ndk/android-ndk-r$NDK_VERSION
 
 ENV PATH=${ANDROID_NDK}:${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:/opt/buck/bin/:${PATH}
 
+RUN apt-add-repository -y ppa:rael-gc/rvm
+
 # Install system dependencies
 RUN apt update && apt-get install -qq -y --no-install-recommends \
         apt-transport-https \
