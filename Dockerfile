@@ -23,6 +23,9 @@ RUN apt-get update -q  && \
     apt-get install -qy curl ca-certificates gnupg build-essential --no-install-recommends  && \
     rm -rf /var/lib/apt/lists/*;
 
+# https://github.com/inversepath/usbarmory-debian-base_image/issues/9
+RUN mkdir ~/.gnupg
+RUN echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
 
 # install ruby dev
 RUN gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
