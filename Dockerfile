@@ -6,6 +6,21 @@ LABEL Description="This image provides a base Android development environment fo
 # set default build arguments
 ARG NODE_VERSION=10.x
 ARG RUBY_VERSION=2.4.4
+ENV WATCHMAN_VERSION=4.9.0
+
+# Install Watchman
+RUN apt-get update \
+  && apt-get install -y python python-dev pkg-config libssl-dev autoconf automake libtool \
+  && cd /tmp \
+  && git clone https://github.com/facebook/watchman.git \
+  && cd watchman \
+  && git checkout v${WATCHMAN_VERSION} \
+  && ./autogen.sh \
+  && ./configure \
+  && make \
+  && make install \
+  && cd $HOME \
+  && rm -rf /tmp/watchman
 
 # set default environment variables
 ENV ANDROID_COMPILE_SDK="28" \
