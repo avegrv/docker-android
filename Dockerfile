@@ -2,16 +2,18 @@ FROM openjdk:8
 
 LABEL Description="This image provides a base Android development environment for React Native may be used to run tests and distribute apps via fastlane."
 
-
 # set default build arguments
-ARG NODE_VERSION=10.x
+ARG NODE_VERSION=12.x
 ARG RUBY_VERSION=2.4.4
-ENV WATCHMAN_VERSION=4.9.0
+
+ARG ANDROID_BUILD_VERSION=29
+ARG ANDROID_TOOLS_VERSION=29.0.2
+ARG ANDROID_SDK_TOOLS_REVISION_VERSION=4333796
 
 # set default environment variables
-ENV ANDROID_COMPILE_SDK="28" \
-    ANDROID_BUILD_TOOLS="28.0.3" \
-    ANDROID_SDK_TOOLS_REVISION="4333796" \
+ENV ANDROID_COMPILE_SDK="${ANDROID_BUILD_VERSION}" \
+    ANDROID_BUILD_TOOLS="${ANDROID_TOOLS_VERSION}" \
+    ANDROID_SDK_TOOLS_REVISION="${ANDROID_SDK_TOOLS_REVISION_VERSION}" \
     ANDROID_HOME="/android-sdk-linux" \
     LANG="C.UTF-8" \
     LC_ALL="C.UTF-8" \
@@ -68,21 +70,6 @@ RUN echo "deb https://deb.nodesource.com/node_${NODE_VERSION} stretch main" > /e
 
 # install firebase cli
 RUN npm install -g firebase-tools
-
-# install Watchman
-RUN apt-get update && \
-  apt-get install -y python python-dev pkg-config libssl-dev autoconf automake libtool && \
-  cd /tmp && \
-  git clone https://github.com/facebook/watchman.git && \
-  cd watchman && \
-  git checkout v${WATCHMAN_VERSION} && \
-  ./autogen.sh && \
-  ./configure && \
-  make && \
-  make install && \
-  cd $HOME && \
-  rm -rf /tmp/watchman && \
-  rm -rf /var/lib/apt/lists/*
 
 # install android sdk
 RUN apt-get -qq update --yes && \
