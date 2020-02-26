@@ -36,6 +36,7 @@ RUN curl -sSL https://get.rvm.io | bash -s
 RUN /bin/bash -l -c ". /etc/profile.d/rvm.sh && rvm install ${RUBY_VERSION}-dev"
 
 # Install system dependencies and fastlane
+RUN add-apt-repository ppa:openjdk-r/ppa
 RUN apt update && \
     apt-get install -qq -y --no-install-recommends \
         apt-transport-https \
